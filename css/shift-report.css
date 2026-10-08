@@ -1,0 +1,229 @@
+/**
+ * Shift Report – style entry
+ * Import order: tokens → fonts → base → components
+ */
+@import url("./tokens.css");
+@import url("./base.css");
+@import url("./components.css");
+@import url("./product.css");
+
+/* ── Incident card polish ─────────────────────────────── */
+
+:root {
+  --card-hairline: var(--border);
+  --card-inner-radius: calc(var(--radius) - 4px);
+  --card-press-duration: 80ms;
+}
+
+/* 1. Edge light (dark only, flat surface) */
+[data-theme="dark"] .card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* 2. Nested radii inside cards */
+.card .btn,
+.card .chip,
+.card .input,
+.card .manual-draft__input,
+.card .accepted-edit-input,
+.card .ai-transform__field-input--time,
+.card .ai-transform__field-value--editable,
+.card .ai-transform__field-input:not(.ai-transform__field-input--time):focus-visible {
+  border-radius: var(--card-inner-radius);
+}
+
+/* 3. Tabular numerals for times */
+.card .card__time,
+.card .card__time-meta,
+.card .card__accepted-time,
+.card .ai-transform__field-input--time,
+.card .ai-transform__field dd {
+  font-variant-numeric: tabular-nums;
+}
+
+/* 4. Text wrapping */
+.card .card__answer-question {
+  text-wrap: balance;
+}
+
+.card .ai-transform__value--input,
+.card .ai-transform__value--output {
+  text-wrap: pretty;
+}
+
+/* 5. Pressed state (no hover scale) */
+.card .btn,
+.card .chip__remove {
+  transition:
+    background-color var(--transition-state),
+    border-color var(--transition-state),
+    color var(--transition-state),
+    box-shadow var(--transition-state),
+    transform var(--card-press-duration) ease-out;
+}
+
+.card .btn:active:not(:disabled):not([aria-disabled="true"]),
+.card .chip__remove:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* Evidence chips – attachment layout */
+.chip--evidence {
+  gap: 0;
+  height: 32px;
+  min-height: 32px;
+  padding: 0 var(--space-1) 0 var(--space-1);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  user-select: none;
+}
+
+.chip--evidence .chip__thumb {
+  flex-shrink: 0;
+  margin-right: var(--space-2);
+}
+
+.chip--evidence .chip__name {
+  flex: 1;
+  min-width: 0;
+  margin-right: var(--chip-gap);
+  color: var(--ink);
+}
+
+.chip--evidence .chip__size {
+  flex-shrink: 0;
+  margin-right: var(--space-2);
+  color: var(--ink-muted);
+}
+
+.chip__thumb-tile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--space-1);
+  background: var(--surface-raised);
+}
+
+.chip__thumb-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  color: var(--ink-muted);
+}
+
+.chip--settling .chip__name {
+  color: var(--ink-muted);
+}
+
+.chip--settling .chip__thumb-tile {
+  animation: chip-thumb-pulse 600ms ease-in-out;
+}
+
+@keyframes chip-thumb-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.chip__remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  min-height: 24px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: var(--card-inner-radius);
+  background: transparent;
+  color: var(--ink-muted);
+  cursor: pointer;
+}
+
+.chip__remove:hover {
+  color: var(--ink);
+}
+
+.chip__remove:focus {
+  outline: none;
+}
+
+.chip__remove:focus-visible {
+  box-shadow: 0 0 0 2px var(--accent-soft);
+}
+
+.chip__remove-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.chip--removing {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 120ms ease-out;
+}
+
+/* 6. Capture field caret and selection */
+.capture-field .textarea,
+#shift-notes {
+  caret-color: var(--accent);
+}
+
+.capture-field .textarea::selection,
+#shift-notes::selection {
+  background-color: var(--accent-soft);
+}
+
+/* 7. Card dividers – 1px hairline at any zoom */
+.card--attention .card__zone--question {
+  border-bottom: 0;
+  box-shadow: inset 0 -1px 0 0 var(--card-hairline);
+}
+
+.card--attention .card__zone--answer {
+  border-top: 0;
+  box-shadow: inset 0 1px 0 0 var(--card-hairline);
+}
+
+/* 8. Header title + mono meta on one baseline */
+@media (min-width: 600px) {
+  .card__title-row {
+    align-items: baseline;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card .btn:active:not(:disabled):not([aria-disabled="true"]),
+  .card .chip__remove:active:not(:disabled) {
+    transform: none;
+    transition-duration: var(--transition-reduced);
+  }
+
+  .chip--removing {
+    transition: none;
+  }
+
+  .chip--settling .chip__thumb-tile {
+    animation: none;
+  }
+
+  .chip--settling .chip__name {
+    color: var(--ink);
+  }
+}

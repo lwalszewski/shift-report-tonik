@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shift Report</title>
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/shift-report.css">
+</head>
+<body class="sr-page sr-page--product">
+  <header class="sr-topbar sr-topbar--product">
+    <div class="sr-shell sr-topbar__inner">
+      <div class="sr-topbar__start">
+        <h1 class="sr-topbar__wordmark">Shift Report</h1>
+        <span class="sr-topbar__divider" aria-hidden="true"></span>
+        <span class="sr-topbar__context">
+          <span class="sr-topbar__venue">Nocturne Soho</span>
+          <span class="sr-topbar__dot" aria-hidden="true"></span>
+          <span class="sr-topbar__date" id="topbar-date">Night of Sat 3 Oct</span>
+          <span class="sr-topbar__dot" aria-hidden="true"></span>
+          <span class="sr-topbar__manager" id="topbar-manager">Jamie Okafor</span>
+        </span>
+      </div>
+      <div class="sr-topbar__end">
+        <button
+          class="btn btn--ghost btn--icon"
+          id="theme-toggle"
+          type="button"
+          aria-label="Toggle theme"
+        >
+          <svg class="btn__icon theme-toggle__icon theme-toggle__icon--to-light" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+          </svg>
+          <svg class="btn__icon theme-toggle__icon theme-toggle__icon--to-dark" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+          </svg>
+        </button>
+        <span class="sr-topbar__status" id="topbar-status" hidden>Closed</span>
+        <button class="btn btn--primary" id="review-submit" type="button" disabled>Submit shift report</button>
+      </div>
+    </div>
+  </header>
+
+  <p class="sr-devstrip" aria-label="Development shortcuts">
+    <span class="sr-devstrip__prefix">dev ·</span>
+    <button class="sr-devstrip__action" id="dev-load-20" type="button">Load 20 incidents</button>
+    <span class="sr-devstrip__sep" aria-hidden="true"> · </span>
+    <button class="sr-devstrip__action" id="dev-load-3am" type="button">Load 3am notes</button>
+    <span class="sr-devstrip__sep" aria-hidden="true"> · </span>
+    <button class="sr-devstrip__action" id="dev-type-live" type="button">Type live examples</button>
+    <span class="sr-devstrip__sep" aria-hidden="true"> · </span>
+    <button class="sr-devstrip__action" id="dev-quiet-night" type="button">Quiet night</button>
+  </p>
+
+  <div class="sr-layout sr-shell">
+    <div class="sr-main">
+      <div id="workspace-view">
+        <div class="capture-workspace">
+          <section class="capture-field capture-field--hero capture-field--opening" id="capture-field" aria-label="Shift notes capture">
+            <div class="capture-field__header">
+              <label class="capture-field__label capture-field__label--section" id="capture-label" for="shift-notes">What happened tonight?</label>
+              <p class="capture-coverage" id="capture-coverage" aria-live="polite" hidden>0 sentences · 0 incidents</p>
+            </div>
+            <textarea
+              class="textarea textarea--capture"
+              id="shift-notes"
+              rows="6"
+              spellcheck="false"
+              autofocus
+              placeholder="around 1:20 a fight started at the bar, bouncers broke it up, no injuries"
+            ></textarea>
+            <p class="capture-status" id="capture-status" aria-live="polite">
+              <span class="capture-status__line">
+                <span class="presence-dot presence-dot--system" aria-hidden="true"><span class="presence-dot__ring"></span><span class="presence-dot__core"></span></span>
+                <span class="capture-status__copy">
+                  <span class="capture-status__idle">I'll pick out incidents when you pause.</span>
+                  <span class="capture-status__typing">Reading<span class="capture-status__dots" aria-hidden="true"><span>.</span><span>.</span><span>.</span></span></span>
+                  <span class="capture-status__logged" id="capture-status-logged"></span>
+                </span>
+              </span>
+            </p>
+          </section>
+
+          <section class="attention-queue" id="attention-queue" aria-label="Incidents needing attention">
+            <div class="attention-queue__header">
+              <div class="attention-queue__heading-block">
+                <h2 class="attention-heading" id="attention-heading">
+                  <span class="attention-heading__count">0</span><span class="attention-heading__label"> need your attention</span><span class="attention-heading__clear" id="attention-heading-clear" hidden>All clear</span><span class="attention-heading__quiet" id="attention-heading-quiet" hidden>Nothing logged tonight</span>
+                </h2>
+                <p class="attention-quiet-night-line system-line" id="attention-quiet-night-line" hidden>
+                  <span class="presence-dot presence-dot--system" aria-hidden="true"><span class="presence-dot__ring"></span><span class="presence-dot__core"></span></span>
+                  <span>No notes and no incidents. If that's right, submit it as nothing to report.</span>
+                </p>
+                <p class="attention-all-clear-line system-line" id="attention-all-clear-line" hidden>
+                  <span class="presence-dot presence-dot--system" aria-hidden="true"><span class="presence-dot__ring"></span><span class="presence-dot__core"></span></span>
+                  <span class="attention-all-clear-line__copy"></span>
+                </p>
+              </div>
+              <button class="btn btn--quiet" id="add-incident" type="button">Add an incident</button>
+            </div>
+            <div class="attention-queue__body" id="attention-queue-body">
+              <div class="attention-queue__stage" id="attention-stage"></div>
+            </div>
+          </section>
+
+          <section class="accepted-group accepted-group--collapsed" id="accepted-group" aria-label="Accepted incidents">
+            <button
+              class="accepted-group__toggle"
+              id="accepted-toggle"
+              type="button"
+              aria-controls="accepted-list"
+              aria-expanded="false"
+            >
+              <span class="accepted-group__label"><span class="accepted-group__count">0</span> accepted</span>
+              <svg class="accepted-group__chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+              </svg>
+            </button>
+            <ul class="card-list card-list--accepted" id="accepted-list"></ul>
+          </section>
+
+          <section class="accepted-group other-sections accepted-group--collapsed" id="rest-of-report" aria-label="Other sections">
+            <button
+              class="accepted-group__toggle other-sections__toggle"
+              id="rest-of-report-toggle"
+              type="button"
+              aria-controls="rest-of-report-list"
+              aria-expanded="false"
+            >
+              <span class="accepted-group__label other-sections__header" id="other-sections-header">
+                <span class="other-sections__header-muted" id="other-sections-header-muted">Other sections · 12 optional</span><span class="other-sections__header-notes" id="other-sections-header-notes" hidden> · <span class="other-sections__header-count" id="other-sections-header-count"></span></span>
+              </span>
+              <svg class="accepted-group__chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+              </svg>
+            </button>
+            <ul class="other-sections__list" id="rest-of-report-list"></ul>
+          </section>
+        </div>
+      </div>
+
+      <section class="presubmit-review" id="presubmit-view" hidden aria-label="Before you submit">
+        <button class="btn btn--quiet presubmit-review__back" id="presubmit-back" type="button">
+          <svg class="btn__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+          </svg>
+          Back to incidents
+        </button>
+        <h2 class="presubmit-review__title" id="presubmit-title">Before you submit</h2>
+        <p class="presubmit-review__status" id="presubmit-status" hidden>
+          <span class="presence-dot presence-dot--system presubmit-review__status-dot" aria-hidden="true"><span class="presence-dot__ring"></span><span class="presence-dot__core"></span></span>
+          <span class="presubmit-review__status-copy" id="presubmit-status-copy"></span>
+        </p>
+        <div class="presubmit-review__toolbar" id="presubmit-toolbar" hidden>
+          <p class="presubmit-review__count" id="presubmit-count">0 left to check</p>
+          <button class="btn btn--quiet presubmit-review__keep-all" id="presubmit-keep-all" type="button">Keep all as notes</button>
+        </div>
+        <ul class="presubmit-gaps" id="presubmit-gaps" hidden></ul>
+        <div class="presubmit-review__submit" id="presubmit-submit-wrap" hidden>
+          <button class="btn btn--primary btn--lg" id="presubmit-submit" type="button">Submit shift report</button>
+        </div>
+      </section>
+
+      <section class="submitted-view" id="submitted-view" hidden aria-label="Report closed">
+        <div class="submitted-view__intro">
+          <h2 class="submitted-view__heading">
+            <span class="presence-dot presence-dot--success" aria-hidden="true"><span class="presence-dot__ring"></span><span class="presence-dot__core"></span></span>
+            Report closed
+          </h2>
+          <p class="submitted-view__report-id" id="submitted-report-id"></p>
+          <p class="submitted-view__context" id="submitted-context"></p>
+        </div>
+        <p class="submitted-view__quiet-summary" id="submitted-quiet-summary" hidden></p>
+        <dl class="submitted-view__summary" id="submitted-summary" aria-label="Submission summary"></dl>
+        <p class="submitted-view__notice">No further changes without a new version</p>
+        <div class="submitted-view__actions">
+          <button class="btn btn--ghost" id="submitted-view-report" type="button">View report</button>
+          <button class="btn btn--ghost" id="submitted-reopen" type="button">Reopen as new version</button>
+        </div>
+      </section>
+    </div>
+
+    <aside class="sr-panel" aria-label="Report status column">
+      <div
+        class="review-panel review-panel--pending"
+        id="review-panel"
+        aria-label="Report status"
+        data-confirmed="0"
+        data-total="0"
+      >
+        <h2 class="review-panel__title t-section">Report status</h2>
+        <p class="review-panel__notice review-panel__notice--neutral" id="review-notice">
+          <span class="review-panel__notice-label">Not ready</span>
+          <span class="review-panel__notice-text" id="review-notice-text"><span class="review-panel__notice-count">0</span> incidents still need your confirmation</span>
+        </p>
+        <p class="review-panel__notice review-panel__notice--quiet" id="review-notice-quiet" hidden>
+          <span class="review-panel__notice-label">Ready</span>
+          <span class="review-panel__notice-text">Quiet night. Nothing to confirm.</span>
+        </p>
+        <div class="review-panel__block" id="review-incidents-block">
+          <div class="review-panel__item">
+            <span class="review-panel__label">Incidents</span>
+            <span class="review-panel__value" id="review-total">0</span>
+          </div>
+        </div>
+        <div class="review-panel__submit" id="review-progress-block">
+          <p class="review-panel__progress-label" id="review-progress-label">
+            <span class="review-panel__progress-mono">0</span> of <span class="review-panel__progress-mono">0</span> confirmed
+          </p>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <script src="js/review-queue.js"></script>
+  <script src="js/capture-detect.js"></script>
+  <script src="js/pre-submit-review.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

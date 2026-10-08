@@ -1,0 +1,174 @@
+/**
+ * Shift Report – design tokens
+ * Indigo accent. Light + dark. No hex outside this file.
+ */
+
+:root {
+  --bg: #fafafa;
+  --surface: #ffffff;
+  --surface-raised: #f4f4f5;
+  --surface-inset: #f0f0f2;
+  --border: #e4e4e7;
+  --border-strong: #d4d4d8;
+  --card-shadow: 0 1px 2px rgba(24, 24, 27, 0.04), 0 2px 8px rgba(24, 24, 27, 0.05);
+  --ink: #18181b;
+  --ink-muted: #3f3f46;
+  --ink-dim: #52525b;
+  --accent: #4f46e5;
+  --accent-soft: rgba(79, 70, 229, 0.08);
+  --accent-text: #4338ca;
+  --accent-button: var(--accent);
+  --accent-button-hover: #4338ca;
+  --accent-button-active: #3730a3;
+  --ink-on-accent: #ffffff;
+  --btn-ghost-bg: rgba(0, 0, 0, 0.05);
+  --btn-ghost-border: rgba(0, 0, 0, 0.1);
+  --btn-ghost-bg-hover: rgba(0, 0, 0, 0.08);
+  --btn-ghost-bg-active: rgba(0, 0, 0, 0.1);
+  --btn-ghost-bg-disabled: rgba(0, 0, 0, 0.03);
+  --topbar-bg: #ececef;
+  --danger: #dc2626;
+  --danger-soft: rgba(220, 38, 38, 0.08);
+  --success: #16a34a;
+  --success-soft: rgba(22, 163, 74, 0.12);
+
+  /* ── Spacing (only these values) ─────────────────────── */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --queue-heading-gap-below: 20px;
+
+  /* ── Type scale (only these sizes) ───────────────────── */
+  --text-page-title: 32px;
+  --text-section: 22px;
+  --text-queue-heading: 26px;
+  --text-card-title: 17px;
+  --text-question: 20px;
+  --text-body: 15px;
+  --text-desc: 16px;
+  --text-label: 15px;
+  --text-quiet: 14px;
+  --text-meta: 13px;
+  --text-hint: 12px;
+  --text-mono-meta: 13px;
+  --text-mono-count: 16px;
+  --text-mono-headline: 30px;
+
+  --weight-regular: 400;
+  --weight-desc: 500;
+  --weight-body: 500;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  --lh-page-title: 1.2;
+  --lh-section: 1.25;
+  --lh-ui: 1.4;
+  --lh-body: 1.5;
+
+  --ls-page-title: -0.02em;
+  --ls-section: -0.01em;
+  --ls-mono-headline: -0.01em;
+  --ls-ai-label: 0.06em;
+
+  /* ── Layout ──────────────────────────────────────────── */
+  --radius: 8px;
+  --layout-max-width: 1440px;
+  --topbar-height: 64px;
+  --content-top-padding: var(--space-7);
+  --main-max-width: 760px;
+  --panel-width: 400px;
+  --panel-offset-top: calc(var(--topbar-height) + var(--content-top-padding));
+  --layout-gutter: var(--space-7);
+  --textarea-max-ch: 72ch;
+  --desc-max-ch: 60ch;
+  --card-collapsed-min: 56px;
+  --card-accepted-row-height: 48px;
+  --card-accepted-pad-x: 20px;
+  --accepted-field-label-width: 120px;
+  --accepted-field-value-start: 132px;
+  --accepted-field-row-height: 28px;
+  --field-label-width: 96px;
+  --card-actions-offset: 20px;
+  --marker-width: 3px;
+  --marker-radius: 2px;
+  --marker-inset-y: var(--space-3);
+  --marker-inset-x: var(--space-2);
+  --btn-height: 36px;
+  --btn-height-lg: var(--tap-min);
+  --btn-padding-x: var(--space-4);
+  --btn-gap: var(--space-3);
+  --btn-radius: 6px;
+  --chip-height: 28px;
+  --chip-radius: 6px;
+  --chip-padding-x: var(--space-2);
+  --chip-gap: 6px;
+  --tap-min: 40px;
+  /* ── Motion (state change only) ──────────────────────── */
+  --transition-state: 120ms ease-out;
+  --transition-detect-flash: 900ms ease-out;
+  --accent-detect-glow: rgba(79, 70, 229, 0.18);
+  --transition-reading-dots: 400ms ease-in-out;
+  --transition-signal-enter: 300ms ease-out;
+  --transition-signal-reading: 1.2s;
+  --transition-signal-settle: 300ms;
+  --transition-confirm-flash: 80ms ease-out;
+  --transition-card-exit: 180ms ease-out;
+  --transition-card-slide: 180ms ease-out;
+  --transition-count-tick: 120ms ease-out;
+  --transition-accepted-confirm: 600ms ease-out;
+  --transition-accepted-stack: 800ms ease-out;
+  --transition-queue-collapse: 240ms ease-out;
+  --transition-reduced: 100ms ease-out;
+  --signal-dot-size: 6px;
+  --signal-ring-size: 12px;
+  --signal-ring-opacity: 0.2;
+  --signal-pulse-scale-max: 1.18;
+  --signal-reading-scale-max: 1.62;
+  --signal-reading-opacity-min: 0.15;
+  --signal-reading-ring-opacity: 0.55;
+  --signal-system: #6366f1;
+
+  /* ── Font ────────────────────────────────────────────── */
+  --font-ui: "Satoshi", -apple-system, system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
+}
+
+[data-theme="dark"] {
+  --bg: #09090b;
+  --surface: #18181b;
+  --surface-raised: #1f1f23;
+  --surface-inset: #131316;
+  --border: #2a2a2e;
+  --border-strong: #3a3a40;
+  --card-shadow: none;
+  --ink: #f4f4f5;
+  --ink-muted: #a1a1aa;
+  --ink-dim: #71717a;
+  --weight-body: 450;
+  --weight-desc: 450;
+  --accent: #818cf8;
+  --accent-soft: rgba(129, 140, 248, 0.12);
+  --accent-text: #a5b4fc;
+  --accent-button: #9ca5fa;
+  --accent-button-hover: #b0b6fc;
+  --accent-button-active: #8b94fa;
+  --ink-on-accent: var(--bg);
+  --btn-ghost-bg: rgba(255, 255, 255, 0.07);
+  --btn-ghost-border: rgba(255, 255, 255, 0.1);
+  --btn-ghost-bg-hover: rgba(255, 255, 255, 0.11);
+  --btn-ghost-bg-active: rgba(255, 255, 255, 0.14);
+  --btn-ghost-bg-disabled: rgba(255, 255, 255, 0.03);
+  --topbar-bg: #101014;
+  --danger: #ef4444;
+  --danger-soft: rgba(239, 68, 68, 0.1);
+  --success: #7fd8a8;
+  --success-soft: rgba(127, 216, 168, 0.12);
+  --accent-detect-glow: rgba(129, 140, 248, 0.22);
+  --signal-system: #a5b4fc;
+}
